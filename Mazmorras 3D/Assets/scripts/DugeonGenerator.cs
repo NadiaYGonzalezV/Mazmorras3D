@@ -18,5 +18,6 @@ internal class DugeonGenerator
     {
         BinarySpacePartitioner bsp = new BinarySpacePartitioner(dungeonWidth, dungeonLength);
         allSpaceNodes = bsp.PrepareNodesCollection(maxInterations, roomWidthMin, roomLengthMin);
+        return new List <Node>(allSpaceNodes);
     }
 }

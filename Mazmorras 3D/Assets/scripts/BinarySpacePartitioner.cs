@@ -28,6 +28,7 @@ public class BinarySpacePartitioner
                 SplitTheSpace(currentNode, listToReturn, roomLengthMin, roomWidthMin, graph);
             }
         }
+        return listToReturn;
     }
 
     private void SplitTheSpace(RoomNode currentNode, List<RoomNode> listToReturn, int roomLengthMin, int roomWidthMin, Queue<RoomNode> graph)
@@ -37,6 +38,38 @@ public class BinarySpacePartitioner
             currentNode.TopRightAreaCorner,
             roomWidthMin,
             roomLengthMin);
+        RoomNode node1, node2;
+        if (line.Orientation == Orientation.Horizontal)
+        {
+            node1 = new RoomNode(currentNode.BottomLeftAreaCorner,
+                new Vector2Int(currentNode.TopRightAreaCorner.x, line.Coordenadas.y), //coordinantes 
+                 currentNode,
+                 currentNode.TreeLayerIndex + 1);
+            node2 = new RoomNode(new Vector2Int(currentNode.TopLeftAreaCroner.x, line.Coordenadas.y), //coordinantes 
+               currentNode.TopRightAreaCorner,
+                currentNode,
+                currentNode.TreeLayerIndex + 1);
+        }
+        else
+        {
+            node1 = new RoomNode(currentNode.BottomLeftAreaCorner,
+                new Vector2Int(line.Coordenadas.x,currentNode.TopRightAreaCorner.y), //coordinantes video 4
+                 currentNode,
+                 currentNode.TreeLayerIndex + 1);
+            node2 = new RoomNode(new Vector2Int(line.Coordenadas.x, currentNode.BottomLeftAreaCorner.y), //coordinantes 
+               currentNode.TopRightAreaCorner,
+                currentNode,
+                currentNode.TreeLayerIndex + 1);
+        }
+        AddNewNodeToCollections(listToReturn, graph, node1);
+        AddNewNodeToCollections(listToReturn, graph, node2);
+
+    }
+
+    private void AddNewNodeToCollections(List<RoomNode> listToReturn, Queue<RoomNode> graph, RoomNode node)
+    {
+        listToReturn.Add(node); 
+        graph.Enqueue(node);
     }
 
     private Line GetLineDividingSpace(Vector2Int bottomLeftAreaCorner, Vector2Int topRightAreaCorner, int roomWidthMin, int roomLengthMin)
@@ -66,6 +99,23 @@ public class BinarySpacePartitioner
 
     private Vector2Int GetCoordenadasOrientacion(Orientation orientation, Vector2Int bottomLeftAreaCorner, Vector2Int topRightAreaCorner, int roomWidthMin, int roomLengthMin)
     {
-        throw new NotImplementedException(); //parte del tutorial 3
+        Vector2Int coordinantes = Vector2Int.zero;
+        if(orientation == Orientation.Horizontal)
+        {
+            coordinantes = new Vector2Int(
+                0, 
+                Random.Range(
+                (bottomLeftAreaCorner.y + roomLengthMin),
+                (topRightAreaCorner.y - roomLengthMin)));
+        }
+        else
+        {
+            coordinantes = new Vector2Int(
+                Random.Range(
+               (bottomLeftAreaCorner.x + roomWidthMin),
+               (topRightAreaCorner.x - roomWidthMin))
+                ,0);
+        }
+        return coordinantes;
     }
 }
