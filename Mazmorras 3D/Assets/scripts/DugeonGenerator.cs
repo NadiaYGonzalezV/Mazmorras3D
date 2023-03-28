@@ -6,8 +6,8 @@ internal class DugeonGenerator
 {
    
     List<RoomNode> allSpaceNodes = new List<RoomNode>();
-    private int dungeonWidth;
-    private int dungeonLength;
+    [SerializeField] private int dungeonWidth;
+    [SerializeField] private int dungeonLength;
     public DugeonGenerator(int dungeonWidth, int dungeonLengt)
     {
         this.dungeonWidth = dungeonWidth;
